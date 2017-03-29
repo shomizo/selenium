@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
+using System.Threading.Tasks;
 using OpenQA.Selenium.Internal;
 
 namespace OpenQA.Selenium.Support.PageObjects
@@ -61,7 +62,7 @@ namespace OpenQA.Selenium.Support.PageObjects
             {
                 if (!this.Cache || this.cachedElement == null)
                 {
-                    this.cachedElement = this.Locator.LocateElement(this.Bys);
+                    this.cachedElement = this.Locator.LocateElement(this.Bys).Result;
                 }
 
                 return this.cachedElement;

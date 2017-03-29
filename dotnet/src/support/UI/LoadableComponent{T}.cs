@@ -16,6 +16,8 @@
 // limitations under the License.
 // </copyright>
 
+using System.Threading.Tasks;
+
 namespace OpenQA.Selenium.Support.UI
 {
     /// <summary>
@@ -78,7 +80,7 @@ namespace OpenQA.Selenium.Support.UI
         /// </summary>
         /// <returns>The loaded component.</returns>
         /// <remarks>This is equivalent to the Get() method in Java version.</remarks>
-        public virtual T Load()
+        public virtual async Task<T> Load()
         {
             if (this.IsLoaded)
             {

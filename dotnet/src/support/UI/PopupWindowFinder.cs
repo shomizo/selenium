@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace OpenQA.Selenium.Support.UI
 {
@@ -105,14 +106,14 @@ namespace OpenQA.Selenium.Support.UI
         /// <returns>The window handle of the popup browser window.</returns>
         /// <exception cref="WebDriverTimeoutException">Thrown if no popup window appears within the specified timeout.</exception>
         /// <exception cref="ArgumentNullException">Thrown if the element to click is <see langword="null"/>.</exception>
-        public string Click(IWebElement element)
+        public async Task<string> Click(IWebElement element)
         {
             if (element == null)
             {
                 throw new ArgumentNullException("element", "element cannot be null");
             }
 
-            return this.Invoke(() => { element.Click(); });
+            return await this.Invoke(() => { element.Click(); });
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace OpenQA.Selenium.Support.UI
         /// <returns>The window handle of the popup browser window.</returns>
         /// <exception cref="WebDriverTimeoutException">Thrown if no popup window appears within the specified timeout.</exception>
         /// <exception cref="ArgumentNullException">Thrown if the action to invoke is <see langword="null"/>.</exception>
-        public string Invoke(Action popupMethod)
+        public async Task<string> Invoke(Action popupMethod)
         {
             if (popupMethod == null)
             {
@@ -133,7 +134,7 @@ namespace OpenQA.Selenium.Support.UI
             IList<string> existingHandles = this.driver.WindowHandles;
             popupMethod();
             WebDriverWait wait = new WebDriverWait(new SystemClock(), this.driver, this.timeout, this.sleepInterval);
-            string popupHandle = wait.Until<string>((d) =>
+            string popupHandle = await wait.Until<string>((d) =>
             {
                 string foundHandle = null;
                 IList<string> differentHandles = GetDifference(existingHandles, this.driver.WindowHandles);

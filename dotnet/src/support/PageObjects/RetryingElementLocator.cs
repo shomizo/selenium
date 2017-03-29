@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenQA.Selenium.Support.PageObjects
 {
@@ -87,7 +88,7 @@ namespace OpenQA.Selenium.Support.PageObjects
         /// </summary>
         /// <param name="bys">The list of methods by which to search for the element.</param>
         /// <returns>An <see cref="IWebElement"/> which is the first match under the desired criteria.</returns>
-        public IWebElement LocateElement(IEnumerable<By> bys)
+        public async Task<IWebElement> LocateElement(IEnumerable<By> bys)
         {
             if (bys == null)
             {
@@ -114,7 +115,8 @@ namespace OpenQA.Selenium.Support.PageObjects
                 timeoutReached = DateTime.Now > endTime;
                 if (!timeoutReached)
                 {
-                    Thread.Sleep(this.pollingInterval);
+                    // Thread.Sleep(this.pollingInterval);
+                    await Task.Delay(this.pollingInterval);
                 }
             }
 
@@ -126,7 +128,7 @@ namespace OpenQA.Selenium.Support.PageObjects
         /// </summary>
         /// <param name="bys">The list of methods by which to search for the elements.</param>
         /// <returns>A list of all elements which match the desired criteria.</returns>
-        public ReadOnlyCollection<IWebElement> LocateElements(IEnumerable<By> bys)
+        public async Task<ReadOnlyCollection<IWebElement>> LocateElements(IEnumerable<By> bys)
         {
             if (bys == null)
             {
@@ -147,7 +149,8 @@ namespace OpenQA.Selenium.Support.PageObjects
                 timeoutReached = collection.Count != 0 || DateTime.Now > endTime;
                 if (!timeoutReached)
                 {
-                    Thread.Sleep(this.pollingInterval);
+                    // Thread.Sleep(this.pollingInterval);
+                    await Task.Delay(this.pollingInterval);
                 }
             }
 

@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenQA.Selenium.Support.UI
 {
@@ -139,7 +140,7 @@ namespace OpenQA.Selenium.Support.UI
         /// <typeparam name="TResult">The delegate's expected return type.</typeparam>
         /// <param name="condition">A delegate taking an object of type T as its parameter, and returning a TResult.</param>
         /// <returns>The delegate's return value.</returns>
-        public TResult Until<TResult>(Func<T, TResult> condition)
+        public async Task<TResult> Until<TResult>(Func<T, TResult> condition)
         {
             if (condition == null)
             {
@@ -198,7 +199,8 @@ namespace OpenQA.Selenium.Support.UI
                     this.ThrowTimeoutException(timeoutMessage, lastException);
                 }
 
-                Thread.Sleep(this.sleepInterval);
+                // Thread.Sleep(this.sleepInterval);
+                await Task.Delay(this.sleepInterval);
             }
         }
 

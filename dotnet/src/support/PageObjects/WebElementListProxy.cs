@@ -53,7 +53,7 @@ namespace OpenQA.Selenium.Support.PageObjects
                 if (!this.Cache || this.collection == null)
                 {
                     this.collection = new List<IWebElement>();
-                    this.collection.AddRange(this.Locator.LocateElements(this.Bys));
+                    this.collection.AddRange(this.Locator.LocateElements(this.Bys).Result);
                 }
 
                 return this.collection;

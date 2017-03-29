@@ -19,6 +19,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenQA.Selenium.Support.UI
 {
@@ -74,7 +75,7 @@ namespace OpenQA.Selenium.Support.UI
         /// </summary>
         /// <returns>The loaded component.</returns>
         /// <remarks>This is equivalent to the Get() method in Java version.</remarks>
-        public override T Load()
+        public override async Task<T> Load()
         {
             if (this.IsLoaded)
             {
@@ -95,7 +96,7 @@ namespace OpenQA.Selenium.Support.UI
                 }
 
                 this.HandleErrors();
-                this.Wait();
+                await this.Wait();
             }
 
             if (this.IsLoaded)
@@ -121,9 +122,10 @@ namespace OpenQA.Selenium.Support.UI
             // no-op by default
         }
 
-        private void Wait()
+        private async Task Wait()
         {
-            Thread.Sleep(this.sleepInterval);
+            // Thread.Sleep(this.sleepInterval);
+            await Task.Delay(this.sleepInterval);
         }
     }
 }
