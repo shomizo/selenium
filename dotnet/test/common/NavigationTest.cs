@@ -48,7 +48,7 @@ namespace OpenQA.Selenium
             INavigation navigation;
             navigation = driver.Navigate();
 
-            navigation.GoToUrl("isidsji30342όϊώ®ιεµρ©ζ");
+            navigation.GoToUrl("isidsji30342");
             navigation.GoToUrl("");
         }
 
@@ -58,7 +58,7 @@ namespace OpenQA.Selenium
             INavigation navigation;
             navigation = driver.Navigate();
             Assert.Throws<ArgumentNullException>(() => navigation.GoToUrl((Uri)null));
-            // new Uri("") and new Uri("isidsji30342όϊώ®ιεµρ©ζ") 
+            // new Uri("") and new Uri("isidsji3034E) 
             // throw an exception, so we needn't worry about them.
         }
 

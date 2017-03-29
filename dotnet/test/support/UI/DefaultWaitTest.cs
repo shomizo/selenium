@@ -54,7 +54,7 @@ namespace OpenQA.Selenium.Support.UI
             wait.PollingInterval = TimeSpan.FromSeconds(2);
             wait.IgnoreExceptionTypes(typeof(NoSuchElementException), typeof(NoSuchFrameException));
 
-            Assert.IsTrue(wait.Until(condition));
+            Assert.IsTrue(wait.Until(condition).Result);
         }
 
         [Test]

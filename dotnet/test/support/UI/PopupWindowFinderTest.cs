@@ -27,7 +27,7 @@ namespace OpenQA.Selenium.Support.UI
             string current = driver.CurrentWindowHandle;
 
             PopupWindowFinder finder = new PopupWindowFinder(driver);
-            string newHandle = finder.Invoke(() => { driver.FindElement(By.LinkText("Open new window")).Click(); });
+            string newHandle = finder.Invoke(() => { driver.FindElement(By.LinkText("Open new window")).Click(); }).Result;
 
             Assert.That(newHandle, Is.Not.Null.Or.Empty);
             Assert.AreNotEqual(current, newHandle);
@@ -46,7 +46,7 @@ namespace OpenQA.Selenium.Support.UI
             string current = driver.CurrentWindowHandle;
 
             PopupWindowFinder finder = new PopupWindowFinder(driver);
-            string newHandle = finder.Click(driver.FindElement(By.LinkText("Open new window")));
+            string newHandle = finder.Click(driver.FindElement(By.LinkText("Open new window"))).Result;
 
             Assert.That(newHandle, Is.Not.Null.Or.Empty);
             Assert.AreNotEqual(current, newHandle);
@@ -65,12 +65,12 @@ namespace OpenQA.Selenium.Support.UI
             string first = driver.CurrentWindowHandle;
 
             PopupWindowFinder finder = new PopupWindowFinder(driver);
-            string second = finder.Click(driver.FindElement(By.Name("windowOne")));
+            string second = finder.Click(driver.FindElement(By.Name("windowOne"))).Result;
             Assert.That(second, Is.Not.Null.Or.Empty);
             Assert.AreNotEqual(first, second);
 
             finder = new PopupWindowFinder(driver);
-            string third = finder.Click(driver.FindElement(By.Name("windowTwo")));
+            string third = finder.Click(driver.FindElement(By.Name("windowTwo"))).Result;
             Assert.That(third, Is.Not.Null.Or.Empty);
             Assert.AreNotEqual(first, third);
             Assert.AreNotEqual(second, third);
@@ -89,7 +89,7 @@ namespace OpenQA.Selenium.Support.UI
         {
             driver.Url = xhtmlTestPage;
             PopupWindowFinder finder = new PopupWindowFinder(driver);
-            Assert.Throws<WebDriverTimeoutException>(() => { string handle = finder.Click(driver.FindElement(By.Id("linkId"))); });
+            Assert.Throws<WebDriverTimeoutException>(() => { string handle = finder.Click(driver.FindElement(By.Id("linkId"))).Result; });
         }
     }
 }

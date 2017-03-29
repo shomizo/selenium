@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace OpenQA.Selenium.Support.UI
 {
@@ -12,7 +13,7 @@ namespace OpenQA.Selenium.Support.UI
         {
             try
             {
-                new DetonatingSlowLoader().Load();
+                Task.Run( async() => await new DetonatingSlowLoader().Load()).Wait();
             }
             catch (Exception)
             {
@@ -24,7 +25,7 @@ namespace OpenQA.Selenium.Support.UI
         public void TestShouldCauseTheLoadMethodToBeCalledIfTheComponentIsNotAlreadyLoaded()
         {
             int numberOfTimesThroughLoop = 1;
-            SlowLoading slowLoading = new SlowLoading(TimeSpan.FromSeconds(1), new SystemClock(), numberOfTimesThroughLoop).Load();
+            SlowLoading slowLoading = new SlowLoading(TimeSpan.FromSeconds(1), new SystemClock(), numberOfTimesThroughLoop).Load().Result;
 
             Assert.AreEqual(numberOfTimesThroughLoop, slowLoading.GetLoopCount());
         }
@@ -34,7 +35,7 @@ namespace OpenQA.Selenium.Support.UI
         {
             try
             {
-                new OnlyOneLoad(TimeSpan.FromSeconds(5), new SystemClock(), 5).Load();
+                Task.Run(async () => await new OnlyOneLoad(TimeSpan.FromSeconds(5), new SystemClock(), 5).Load()).Wait();
             }
             catch (Exception)
             {
@@ -48,7 +49,7 @@ namespace OpenQA.Selenium.Support.UI
             FakeClock clock = new FakeClock();
             try
             {
-                new BasicSlowLoader(TimeSpan.FromSeconds(2), clock).Load();
+                Task.Run(async() => await new BasicSlowLoader(TimeSpan.FromSeconds(2), clock).Load()).Wait();
                 Assert.Fail();
             }
             catch (WebDriverTimeoutException)
@@ -64,7 +65,7 @@ namespace OpenQA.Selenium.Support.UI
 
             try
             {
-                error.Load();
+                Task.Run(async () => await error.Load()).Wait();
                 Assert.Fail();
             }
             catch (CustomException)

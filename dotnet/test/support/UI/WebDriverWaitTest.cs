@@ -1,6 +1,7 @@
 ﻿using System;
 using NMock2;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace OpenQA.Selenium.Support.UI
 {
@@ -54,7 +55,7 @@ namespace OpenQA.Selenium.Support.UI
             var condition = GetCondition(() => false, () => true);
 
             var wait = new WebDriverWait(new TickingClock(), mockDriver, FIVE_SECONDS, ZERO_SECONDS);
-            Assert.True(wait.Until(condition));
+            Assert.True(wait.Until(condition).Result);
         }
 
         [Test]
@@ -66,8 +67,8 @@ namespace OpenQA.Selenium.Support.UI
 
             var wait = new WebDriverWait(new TickingClock(), mockDriver, FIVE_SECONDS, ZERO_SECONDS);
             
-            Assert.Throws(typeof(ArgumentException), () => wait.Until(nullableBooleanCondition));
-            Assert.Throws(typeof(ArgumentException), () => wait.Until(intCondition));
+            Assert.Throws(typeof(ArgumentException), async () => await wait.Until(nullableBooleanCondition));
+            Assert.Throws(typeof(ArgumentException), async () => await wait.Until(intCondition));
         }
 
         [Test]
@@ -76,7 +77,7 @@ namespace OpenQA.Selenium.Support.UI
             var mockDriver = mocks.NewMock<IWebDriver>();
             var wait = new WebDriverWait(GetClock(), mockDriver, ONE_SECONDS, ZERO_SECONDS);
 
-            Assert.Throws(typeof(WebDriverTimeoutException), () => wait.Until(driver => false));
+            Assert.Throws(typeof(WebDriverTimeoutException), async () => await wait.Until(driver => false));
         }
 
         [Test]
@@ -116,7 +117,7 @@ namespace OpenQA.Selenium.Support.UI
 
             try
             {
-                wait.Until(condition);
+                Task.Run(async () => await wait.Until(condition)).Wait();
                 Assert.Fail("Expected WebDriverTimeoutException to be thrown");
             }
             catch (WebDriverTimeoutException e)
